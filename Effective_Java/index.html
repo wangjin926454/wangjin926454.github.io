@@ -33,10 +33,15 @@
     1)当客户程序不再引用某些对象时，这些对象应该被回收。但是可能还会存在对这些对象的过期引用，即不用但是<br>
         却无意间存在引用。当一个对象过期时，应该情况这些引用，即指向null。如果还有引用会抛出NullPointException<br>
         所以无需担心系统会错误得运行下去。
-    2）内存泄露的另一个常见来源是缓存。可以使用WeakHashMap来代表缓存，当缓存中的条目过期之后,<br>
+    2）
+        ①内存泄露的另一个常见来源是缓存。可以使用WeakHashMap来代表缓存，当缓存中的条目过期之后,<br>
         他们会自动被删除。时间越久有的对象越没有价值，缓存应该尽可能地清除掉无用的条目，这项工作可以由<br>
-        java.util.Timer API来完成。或者可以在加入新条目的时候做清理工作。在1.4jdk以后中加入的<br>
-        java.util.LinkedHashMap类完成，利用它的removeEldestEntry方法可以实现。
+        java.util.Timer API来完成。
+        ②或者可以在加入新条目的时候做清理工作。在1.4jdk以后中加入的<br>
+        java.util.LinkedHashMap类完成，利用它的removeEldestEntry方法可以实现。<br>
+        ②最简单易用;在LinkedHashMap添加元素后，会调用removeEldestEntry防范，<br>
+        传递的参数时最久没有被访问的键值对，如果方法返回true，这个最久的键值对就会被删除。<br>
+        LinkedHashMap中的实现总返回false，该子类重写后即可实现对容量的控制<br>
 
 </div>
 </body>
