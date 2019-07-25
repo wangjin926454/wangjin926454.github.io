@@ -10,8 +10,8 @@ window.onload = function(){
     var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
 
     if (!(bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM)) {
-        document.getElementById("body1").className='body';
-        document.getElementById("body2").className='body';
+        document.getElementById("body1").className="body1";
+        document.getElementById("body2").className='body1';
     }else{
     }
 };
