@@ -1,9 +1,0 @@
-<!DOCTYPE html>
-<html>
-# java核心卷2
-##第一章 Java SE 8的流库
-    流:说明我们想要什么样的结果，而不是如何实现得到结果
-    处理流时是并行处理但不是多线程
-    示例见:https://github.com/wangjin926454/java_volume_1/tree/master/java_volume_2_1/stream
-    API见:java.util.stream   java.util.Optional<T>
-</html>
