@@ -11,7 +11,7 @@ window.onload = function(){
 
     if (!(bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM)) {
         document.getElementById("body1").className='body';
-        document.getElementById("body1").className='body';
+        document.getElementById("body2").className='body';
     }else{
     }
 };
