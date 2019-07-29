@@ -105,7 +105,7 @@
     5.equals(Object another)注意参数类型为Object<br>
     
     
-    <h3>第八条 改写equals时总是要改写hashCode</h3><br>
+    <h3>第八条 改写equals时总是要改写hashCode</h3>
         hashCode约定。来自java.lang.Object规范<br>
         1.应用程序执行期间一个对象的equals方法没有被修改的话，多次调用hashCode方法都应该返回同一个整数。<br>
     程序多次执行，这个整数可以不同。（应该是重启程序计算hashCode方法会改变）<br>
@@ -117,7 +117,7 @@
     在Map中可能hash的不够均匀分散。在jdk1.2之前，String的hashCode只检查16个字符，对于像URL这样的层次状名字<br>
     的大型集合，性能将会严重下降。<br>
     
-    <h3>第九条 总是要改写toString</h3><br>
+    <h3>第九条 总是要改写toString</h3>
         1.重写一个toString()方法。 在编程时显得很有必要(深有体会)<br>
 
     <h3>第十条 谨慎改写clone</h3>
