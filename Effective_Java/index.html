@@ -118,6 +118,17 @@
     <h3>第九条 总是要改写toString</h3><br>
         1.重写一个toString()方法。 在编程时显得很有必要(深有体会)<br>
 
+    <h3>第十条 谨慎改写clone</h3>
+        1.如果一个类实现了Cloneable，则Object的clone方法返回该对象的逐域拷贝<br>
+    否则，抛出一个CloneNotSupportedException异常。不值得效仿，实现一个接口是表名一个<br>
+    类可以为客户做某些事情，对于Cloneable接口，改变了超类中一个受保护的方法的行为。
+        2.在java.lang.Object中对于clone的规范
+    x.clone()!=x 返回true
+    x.clone().getClass()==x.getClass()将返回true
+    x.clone().equals(x)返回true。但是这些不是一个绝对的要求
+        3.拷贝一个对象往往会导致创建该类的一个新实例，但同时它会要求拷贝内部的数据结构。
+    这个过程中没有调用构造函数。
+
     
 </div>
 </body>
