@@ -128,7 +128,13 @@
     x.clone().equals(x)返回true。但是这些不是一个绝对的要求
         3.拷贝一个对象往往会导致创建该类的一个新实例，但同时它会要求拷贝内部的数据结构。
     这个过程中没有调用构造函数。
-555555
+        4.最理想的状况下，如果需要使用clone方法。只需要实现Cloneable接口，重写clone方法即可。
+    通过super.clone()方法得到对象。如果一个类的所有超类都遵循此规则，则可以一直调用super.clone()
+    最终调用Object.clone()方法创建正确的类实例。但是，在原始对象中如果存在可变的对象。
+    例如数组，clone产生的实例会指向原始的数组，修改原始的实例或者clone的实例都会影响
+    到另一个实例而产生无法预料的后果。为了正确的建立起被克隆对象中的约束关系，
+    最容易的做法是<a href="https://github.com/wangjin926454/java_volume_1/tree/master/java_volume_2_1/stream">对于每一个可变对象递归调用clone</a>
+
     
 </div>
 </body>
