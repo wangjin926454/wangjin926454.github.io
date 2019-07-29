@@ -134,8 +134,31 @@
     例如数组，clone产生的实例会指向原始的数组，修改原始的实例或者clone的实例都会影响
     到另一个实例而产生无法预料的后果。为了正确的建立起被克隆对象中的约束关系，
     最容易的做法是<a href="https://github.com/wangjin926454/java_volume_1/tree/master/java_volume_2_1/stream">对于每一个可变对象递归调用clone</a>
+        5.最好的做法是提供某些其他的途径来代替对象拷贝，或者干脆不提供这样的能力。
+    对于非可变类支持对象拷贝并没有太大的意义(例如单例模式)。好办法是提供一个拷贝构造
+    函数，唯一的参数类型是包含该构造函数的类。
+    public Yum(Yum yum);
 
-    
+    public class MyObject {
+    public String field01;
+    public MyObject() {
+    }
+    public MyObject(MyObject object) {
+    this.field01 = object.field01;
+    }
+    }
+    另一种方法是提供一个静态工厂来代替构造函数
+    public static Yum newInstance(Yum yum);
+    public class MyObject {
+    public String field01;
+    public MyObject() {
+    }
+    public static MyObject newInstance(MyObject object) {
+    MyObject myObject = new MyObject();
+    myObject.field01 = object.field01;
+    return myObject;
+    }
+    }
 </div>
 </body>
 </html>
