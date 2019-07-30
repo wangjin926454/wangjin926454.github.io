@@ -18,7 +18,25 @@
     ·好处3：静态工厂方法可以返回一个原类型的子类型的对象。例如在Collections中，一个API可以返回一个对象<br>
         同时又不使该对象的类成为公有的。<br>
 
-    <h3>第二条 使用私有构造函数强化singleton属性</h3>
+    <h3>第二条 当构造方法参数过多时使用builder模式</h3>
+        当构造函数中可选参数很多时，例如食品包装袋上的营养成分标签。这些标签有几个必需的属性<br>
+    以及超过20个可选但是不为零的属性值。这样构造函数有可能会有很多参数，这将会是灾难。<br>
+        1.第一种方法:采取
+    <a href="https://github.com/wangjin926454/Java/blob/master/src/effective_java/NutritionFacts.java">构造函数调用构造函数来创建一个良好的构造函数</a>。<br>
+    当需要创建一个实例时，可以使用包含所有要设置的参数的最短参数列表即可:<br>
+    NutritionFacts nf = new NutritionFacts(240,8,100,0);<br>
+    此方法的缺陷是很难编写客户端代码，读者很难读懂这些值得意思。而一长串参数可能会导致<br>
+    程序员在无意中错误地设置了参数而编译器并不会报错，但是在运行时会出现错误行为。<br>
+    (参数太多眼花放错位置或者少放而且无法直观看出某个参数在构造函数中的对应位置)<br>
+        2.第二种方法:使用javaBeans模式，在这种模式中，调用一个无参数的构造函数来创建对象，然后调用setter<br>
+    方法来设置每个必需的参数和可选参数。(即new一个无参对象，然后setter需要的属性值)<br>
+        不幸的是，Javabeans方法模式本身有严重缺陷。由于构造方法在多次调用中分割，JavaBean可能处于<br>
+    不一致的状态。JavaBeans模式排除了类不可变的可能性，并且需要程序员保证线程安全。<br>
+        3.第三种方法：结合第一种与第二种的优点。通过静态工厂或者一个builder对象。然后他通过调用builder<br>
+    对象的setter相似方法来设置每个可变参数。最后调用一个无参builder方法生成对象。<br>
+    <a href="https://github.com/wangjin926454/Java/blob/master/src/effective_java/NewNutritionFaces.java">实例方法</a>
+
+    <h3>第三条 使用私有构造函数强化singleton属性</h3>
         1）在创建单例模式的时候，构造函数使用private、保证唯一实例对象只能通过getInstance()方法获得<br>
         2）为了使一个singleton类变成可序列化的(serializable)，仅仅在类中"implements Serializable"是<br>
     不够的，为了维护singleton方法，必须提供一个readResolve方法。从内存读出而组装的对象破坏<br>
