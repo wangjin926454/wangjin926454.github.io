@@ -12,6 +12,67 @@
         处理流时是并行处理但不是多线程</p>
     示例见: <a href="https://github.com/wangjin926454/java_volume_1/tree/master/java_volume_2_1/stream">Stream Demo</a><br>
     API见:java.util.stream   java.util.Optional
+
+    spring data jpa:<br>
+    1.在实体类中。@Column代表数据库中一个字段，查询时会带上<br>
+    @Entity(name="table_name")代表实体类，table_name代表表名称<br>
+    @Table可加可不加<br>
+    public void addStudent(Student student){<br>
+    studentDao.save(student);<br>
+    }<br>
+    <br>
+    //修改一个学生(jpa是根据id来修改的)<br>
+    public void  updateStudent(Student student){<br>
+    studentDao.save(student);<br>
+    }<br>
+    //根据id删除一条数据<br>
+    public void deleteStudentById(Long id){<br>
+    studentDao.deleteById(id);<br>
+    }<br>
+    <br>
+    //查询所有<br>
+    public List"<"Student> findAll(){<br>
+    return studentDao.findAll();<br>
+    }<br>
+    //根据id查询一条数据(2.0后不能使用findOne了)<br>
+    public Student findStudentById(Long id){<br>
+    return studentDao.findById(id).get();<br>
+    }<br>
+    //根据学生姓名查询多条数据<br>
+    public List"<"Student> findStudentByName(String name){<br>
+        return studentDao.findByName(name);<br>
+        }<br>
+        //根据学生姓名查询多条数据<br>
+        public void saveAll(List"<"Student> list){<br>
+            studentDao.saveAll(list);<br>
+            }<br>
+    //根据学生姓名查询数据<br>
+    public List<'Student> findByName(String name);<br>
+    @Query(value = "select name from student where id = ?1")<br>
+    String findNameById(long age);<br>
+    <br>
+    //此方法返回虽然表面是List<'Student>，实际上只是一个包含返回值name,age的假Student<br>
+    @Query(value="select name ,age from student where id = '1'")  <br>
+    List<'Student> findTest(long id);<br>
+    <br>
+    Spring Data JPA进阶:<br>
+    创建数据，添加查询功能<br>
+
+    JPA中支持的关键词<br>
+    And：findByUsernameAndPassword(String user, Striang pwd)；<br>
+    Or ：findByUsernameOrAddress(String user, String addr)；<br>
+    Between ： findBySalaryBetween(int max, int min)；<br>
+    LessThan：findBySalaryLessThan(int max)；<br>
+    GreaterThan ：findBySalaryGreaterThan(int min)；<br>
+    IsNull：findByUsernameIsNull()；<br>
+    IsNotNull ：findByUsernameIsNotNull()；<br>
+    NotNull ：与 IsNotNull 等价；<br>
+    Like：findByUsernameLike(String user)；<br>
+    NotLike ：findByUsernameNotLike(String user)；<br>
+    OrderBy ：findByUsernameOrderBySalaryAsc(String user)；<br>
+    Not：findByUsernameNot(String user)；<br>
+    In ：findByUsernameIn(Collection"<"String> userList) ，方法的参数可以是 Collection 类型，也可以是数组或者不定长参数；<br>
+    NotIn ：findByUsernameNotIn(Collection"<"String> userList) ，方法的参数可以是 Collection 类型，也可以是数组或者不定长参数；<br>
 </div>
 </body>
 </html>
