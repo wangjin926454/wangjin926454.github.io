@@ -12,11 +12,29 @@
         处理流时是并行处理但不是多线程</p>
     示例见: <a href="https://github.com/wangjin926454/java_volume_1/tree/master/java_volume_2_1/stream">Stream Demo</a><br>
     API见:java.util.stream   java.util.Optional
-
+    <br>
+    <br>
     spring data jpa:<br>
+    <br>
     1.在实体类中。@Column代表数据库中一个字段，查询时会带上<br>
     @Entity(name="table_name")代表实体类，table_name代表表名称<br>
+    <br>
+    Student实体类<br>
     @Table可加可不加<br>
+    @Entity(name = "student")<br>
+    public class Student {<br>
+    @Id                                  //主键<br>
+    @GeneratedValue<br>
+    @Column(name = "id", length = 32)//name中为列别名默认为属性名<br>
+    private Long id;<br>
+    @Column(length = 50)<br>
+    private String name;<br>
+    @Column(length = 3)<br>
+    private Integer age;<br>
+    @Column(length = 50)<br>
+    private String test;<br>
+    <br>
+    2.Controller层<br>
     public void addStudent(Student student){<br>
     studentDao.save(student);<br>
     }<br>
@@ -54,12 +72,13 @@
     //此方法返回虽然表面是List<'Student>，实际上只是一个包含返回值name,age的假Student<br>
     @Query(value="select name ,age from student where id = '1'")  <br>
     List<'Student> findTest(long id);<br>
+    3.dao层继承自JpaRepository
     <br>
     Spring Data JPA进阶:<br>
     创建数据，添加查询功能<br>
 
     JPA中支持的关键词<br>
-    And：findByUsernameAndPassword(String user, Striang pwd)；<br>
+    And：findByUsernameAndPassword(String user, String pwd)；<br>
     Or ：findByUsernameOrAddress(String user, String addr)；<br>
     Between ： findBySalaryBetween(int max, int min)；<br>
     LessThan：findBySalaryLessThan(int max)；<br>
