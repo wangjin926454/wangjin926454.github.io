@@ -36,16 +36,43 @@
     对象的setter相似方法来设置每个可变参数。最后调用一个无参builder方法生成对象。<br>
     <a href="https://github.com/wangjin926454/Java/blob/master/src/effective_java/NewNutritionFaces.java">实例方法</a>
 
-    <h3>第三条 使用私有构造函数强化singleton属性</h3>
+    <h3>第三条 使用私有构造函数或枚举类实现singleton属性</h3>
         1）在创建单例模式的时候，构造函数使用private、保证唯一实例对象只能通过getInstance()方法获得<br>
         2）为了使一个singleton类变成可序列化的(serializable)，仅仅在类中"implements Serializable"是<br>
-    不够的，为了维护singleton方法，必须提供一个readResolve方法。从内存读出而组装的对象破坏<br>
+    不够的，为了维护singleton方法，声明所有的实例属性为transient，必须提供一个readResolve方法。<br>
+    从内存读出而组装的对象破坏<br>
     了单例的规则。单例是要求一个JVM中只有一个类对象的，而现在通过反序列，一个新的对象克隆了<br>
     出来。违反的单例的原则.使用readResolve方法，当JVM从内存中反序列化地"组装"一个新对象时，<br>
     就会自动调用这个 readResolve方法来返回指定的对象。<br>
+    private Object  readResolve(){<br>
+    //////return INSTANCE;<br>
+    }   <br>
+        <h4>单例使用public field法优点是很简单</h4><br>
+    public class Singleton {<br>
+    ////public static final Singleton singleton = new Singleton();<br>
+    ////private Singleton(){.....}<br>
+    ////public void doSomething(){.....}<br>
+    }<br>
+        <h4>使用static factory方法</h4><br>
+    优点：<br>
+    1.可以方便改为非单例，用户代码不需要改变<br>
+    2.可以编写一个泛型单例工厂<br>
+    3.可以用作supplier(Supplier.get返回一个实例)<br>
+    public class Singleton {<br>
+    ////private static final Singleton singleton = new Singleton();<br>
+    ////private Singleton(){.....}<br>
+    ////public static Singleton getInstance(){return Instance;}<br>
+    ////public void doSomething(){.....}<br>
+    }<br>
+        最佳方式:单一元素枚举类通常是实现单例的最佳方式。如果单例必须继承Enum以外的父类,那么不能使用此方式(枚举继承自Enum)<br>
 
-    <h3>第三条 通过私有的构造函数强化不可实例化的能力</h3>
+    <h3>第四条 通过私有的构造函数强化不可实例化的能力</h3>
         1）不希望工具类实例化也防止工具类被实例化。最好的办法是提供一个私有的构造函数来防止工具类被实例化。<br>
+    最好的是满足每个实例都使用客户端所期望的资源。满足这一需求的简单模式是在创建新实例时将资源传递到构造器中<br>
+    这是依赖注入的一种形式。字典是拼写检查器的一个依赖，当拼写检查器创建时它会被注入其中<br>
+
+    <h3>第五条 依赖注入优于硬连接资源</h3><br>
+        许多类会依赖一个或多个基本资源。例如拼写检查器依赖于字典<br>
 
     <h3>第四条 避免创建重复的对象</h3>
         1）在某些对象初始化之后不会改变时、尽量避免重复创建对象。使其作为static块和static final常量。<br>
