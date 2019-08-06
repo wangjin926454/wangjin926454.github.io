@@ -22,7 +22,7 @@
         当构造函数中可选参数很多时，例如食品包装袋上的营养成分标签。这些标签有几个必需的属性<br>
     以及超过20个可选但是不为零的属性值。这样构造函数有可能会有很多参数，这将会是灾难。<br>
         1.第一种方法:采取
-    <a href="https://github.com/wangjin926454/Java/blob/master/src/effective_java/NutritionFacts.java">构造函数调用构造函数来创建一个良好的构造函数</a>。<br>
+    <a href="https://github.com/wangjin926454/Java/blob/master/src/effectivejava/NutritionFacts.java">构造函数调用构造函数来创建一个良好的构造函数</a>。<br>
     当需要创建一个实例时，可以使用包含所有要设置的参数的最短参数列表即可:<br>
     NutritionFacts nf = new NutritionFacts(240,8,100,0);<br>
     此方法的缺陷是很难编写客户端代码，读者很难读懂这些值得意思。而一长串参数可能会导致<br>
@@ -34,7 +34,7 @@
     不一致的状态。JavaBeans模式排除了类不可变的可能性，并且需要程序员保证线程安全。<br>
         3.第三种方法：结合第一种与第二种的优点。通过静态工厂或者一个builder对象。然后他通过调用builder<br>
     对象的setter相似方法来设置每个可变参数。最后调用一个无参builder方法生成对象。<br>
-    <a href="https://github.com/wangjin926454/Java/blob/master/src/effective_java/NewNutritionFaces.java">实例方法</a>
+    <a href="https://github.com/wangjin926454/Java/blob/master/src/effectivejava/NewNutritionFaces.java">实例方法</a>
 
     <h3>第三条 使用私有构造函数或枚举类实现singleton属性</h3>
         1）在创建单例模式的时候，构造函数使用private、保证唯一实例对象只能通过getInstance()方法获得<br>
@@ -72,7 +72,7 @@
     <h3>第五条 依赖注入优于硬连接资源</h3><br>
         许多类会依赖一个或多个基本资源。例如拼写检查器依赖于字典<br>
     最好的是满足每个实例都使用客户端所期望的资源。满足这一需求的简单模式是在
-    <a href="https://github.com/wangjin926454/Java/blob/master/src/effective_java/SpellChecker.java">创建新实例时将资源传递到构造器中</a><br>
+    <a href="https://github.com/wangjin926454/Java/blob/master/src/effectivejava/SpellChecker.java">创建新实例时将资源传递到构造器中</a><br>
     这是依赖注入的一种形式。字典是拼写检查器的一个依赖，当拼写检查器创建时它会被注入其中<br>
 
     <h3>第四条 避免创建重复的对象</h3>
@@ -182,14 +182,14 @@
     例如数组，clone产生的实例会指向原始的数组，修改原始的实例或者clone的实例都会影响<br>
     到另一个实例而产生无法预料的后果。为了正确的建立起被克隆对象中的约束关系，<br>
     最容易的做法是
-    <a href="https://github.com/wangjin926454/Java/blob/master/src/effective_java/CloneTest.java">
+    <a href="https://github.com/wangjin926454/Java/blob/master/src/effectivejava/CloneTest.java">
         对于每一个可变对象递归调用clone</a><br>
         5.最好的做法是提供某些其他的途径来代替对象拷贝，或者干脆不提供这样的能力。<br>
     对于非可变类支持对象拷贝并没有太大的意义(例如单例模式)。好办法是提供一个拷贝构造<br>
     函数，唯一的参数类型是包含该构造函数的类
-    <a href="https://github.com/wangjin926454/Java/blob/master/src/effective_java/MyObject.java">public Yum(Yum yum);</a><br>
+    <a href="https://github.com/wangjin926454/Java/blob/master/src/effectivejava/MyObject.java">public Yum(Yum yum);</a><br>
     另一种方法是提供一个静态工厂来代替构造函数
-    <a href="https://github.com/wangjin926454/Java/blob/master/src/effective_java/MyObject.java">public static Yum newInstance(Yum yum);</a><br>
+    <a href="https://github.com/wangjin926454/Java/blob/master/src/effectivejava/MyObject.java">public static Yum newInstance(Yum yum);</a><br>
 </div>
 </body>
 </html>
