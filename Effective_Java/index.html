@@ -47,13 +47,13 @@
     private Object  readResolve(){<br>
     //////return INSTANCE;<br>
     }   <br>
-        <h4>单例使用public field法优点是很简单</h4><br>
+        <h4>单例使用public field法优点是很简单</h4>
     public class Singleton {<br>
     ////public static final Singleton singleton = new Singleton();<br>
     ////private Singleton(){.....}<br>
     ////public void doSomething(){.....}<br>
     }<br>
-        <h4>使用static factory方法</h4><br>
+        <h4>使用static factory方法</h4>
     优点：<br>
     1.可以方便改为非单例，用户代码不需要改变<br>
     2.可以编写一个泛型单例工厂<br>
