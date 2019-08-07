@@ -75,10 +75,22 @@
     <a href="https://github.com/wangjin926454/Java/blob/master/src/effectivejava/SpellChecker.java">创建新实例时将资源传递到构造器中</a><br>
     这是依赖注入的一种形式。字典是拼写检查器的一个依赖，当拼写检查器创建时它会被注入其中<br>
 
-    <h3>第四条 避免创建重复的对象</h3>
+    <h3>第六条 避免创建不必要的对象</h3>
         1）在某些对象初始化之后不会改变时、尽量避免重复创建对象。使其作为static块和static final常量。<br>
+    一些对象的创建比其他对象的创建要昂贵地多，如要要重复使用这样一个“昂贵的对象”建议缓存起来<br>
+    例如想写一个方法来确定一个字符串是否是一个有效地罗马数字<br>
+    // Reusing expensive object for improved performance<br>
+    public class RomanNumerals {<br>
+    ////private static final Pattern ROMAN = Pattern.compile(<br>
+    ////////"^(?=.)M*(C[MD]|D?C{0,3})"<br>
+    /////////+ "(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})$");<br>
+    ////static boolean isRomanNumeral(String s) {<br>
+    ////////return ROMAN.matcher(s).matches();<br>
+    ////}<br>
+    }<br>
+        2)优先使用基本类型而不是装箱的基本类型，也要注意无意识的自动装箱。<br>
 
-    <h3>第五条 消除过期的对象引用</h3>
+    <h3>第七条 消除过期的对象引用</h3>
         1)当客户程序不再引用某些对象时，这些对象应该被回收。但是可能还会存在对这些对象的过期引用，即不用但是<br>
     却无意间存在引用。当一个对象过期时，应该情况这些引用，即指向null。如果还有引用会抛出NullPointException<br>
     所以无需担心系统会错误得运行下去。<br>
@@ -92,7 +104,7 @@
     传递的参数时最久没有被访问的键值对，如果方法返回true，这个最久的键值对就会被删除。<br>
     LinkedHashMap中的实现总返回false，该子类重写后即可实现对容量的控制<br>
 
-    <h3>第六条 避免使用终结函数（垃圾回收）</h3>
+    <h3>第八条 避免使用终结函数（垃圾回收）</h3>
         从一个对象变得不可达到它的终结函数执行这段时间是任意的、不确定的。意味着时间关键的<br>
     任务不应该由终结函数来完成。例如打开的文件，应当由程序员自己关闭。由于JVM会延迟执行<br>
     所以大量文件保留在打开状态，当一个程序不能在打开文件的时候，它可能会执行失败。<br>
@@ -113,8 +125,17 @@
     &nbsp &nbsp &nbsp &nbsp  }<br>
     }<br>
     子类实例在私有实例域中保存着一个对其守卫者的唯一引用。守卫者被终结的时候，执行子类实例所期望的终结行为<br>
-    
-    <h3>第七条 在改写equals的时候请遵守通用约定</h3>
+
+    <h3>第九条 使用try-with-resource语句代替try-finally语句</h3>
+        即使是用try-finally语句关闭资源的正确代码，也有一个微妙的缺陷。try-with-resources和finally<br>
+    都可以抛出异常。假设在 <a href="https://github.com/wangjin926454/Java/blob/master/src/effectivejava/TryCatchFinallyTest.java">try-finally中read或write时底层设备发生故障</a>，
+    并且由于相同的原因，调用close方法失败<br>
+    在这种情况下第二个异常完全冲掉了第一个异常。在堆栈跟踪中没有第一个异常的记录，这可能使实际系统中<br>
+    的调试非常复杂,虽然可以编写代码抑制第二个异常，但是实际上太麻烦了没有人这样做。<br>
+        当使用 <a href="https://github.com/wangjin926454/Java/blob/master/src/effectivejava/TryWithResourcesTest.java">try-with-resources</a>时，如果read或者write时和close方法都抛出异常，后一个异常将被抑制(suppressed)，<br>
+    抑制的异常没有被抛弃，打印在堆栈跟踪中，可以使用getSuppressed方法访问它们。相比try-finally这样更简洁也不容易出错。
+
+    <h3>第十条 在改写equals的时候请遵守通用约定</h3>
     <h4>不用覆盖equals的情形：</h4><br>
         1.类的每个实例本质上都是唯一的。<br>
     对于像Thread这类代表活动实体而不是值的类，尤为如此。<br>
