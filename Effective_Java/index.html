@@ -21,18 +21,18 @@
     <h3>第二条 当构造方法参数过多时使用builder模式</h3>
         当构造函数中可选参数很多时，例如食品包装袋上的营养成分标签。这些标签有几个必需的属性<br>
     以及超过20个可选但是不为零的属性值。这样构造函数有可能会有很多参数，这将会是灾难。<br>
-        1.第一种方法:采取
+        1）.第一种方法:采取
     <a href="https://github.com/wangjin926454/Java/blob/master/src/effectivejava/NutritionFacts.java">构造函数调用构造函数来创建一个良好的构造函数</a>。<br>
     当需要创建一个实例时，可以使用包含所有要设置的参数的最短参数列表即可:<br>
     NutritionFacts nf = new NutritionFacts(240,8,100,0);<br>
     此方法的缺陷是很难编写客户端代码，读者很难读懂这些值得意思。而一长串参数可能会导致<br>
     程序员在无意中错误地设置了参数而编译器并不会报错，但是在运行时会出现错误行为。<br>
     (参数太多眼花放错位置或者少放而且无法直观看出某个参数在构造函数中的对应位置)<br>
-        2.第二种方法:使用javaBeans模式，在这种模式中，调用一个无参数的构造函数来创建对象，然后调用setter<br>
+        2）.第二种方法:使用javaBeans模式，在这种模式中，调用一个无参数的构造函数来创建对象，然后调用setter<br>
     方法来设置每个必需的参数和可选参数。(即new一个无参对象，然后setter需要的属性值)<br>
         不幸的是，Javabeans方法模式本身有严重缺陷。由于构造方法在多次调用中分割，JavaBean可能处于<br>
     不一致的状态。JavaBeans模式排除了类不可变的可能性，并且需要程序员保证线程安全。<br>
-        3.第三种方法：结合第一种与第二种的优点。通过静态工厂或者一个builder对象。然后他通过调用builder<br>
+        3）.第三种方法：结合第一种与第二种的优点。通过静态工厂或者一个builder对象。然后他通过调用builder<br>
     对象的setter相似方法来设置每个可变参数。最后调用一个无参builder方法生成对象。<br>
     <a href="https://github.com/wangjin926454/Java/blob/master/src/effectivejava/NewNutritionFacts.java">实例方法</a>
 
@@ -55,9 +55,9 @@
     }<br>
         <h4>使用static factory方法</h4>
     优点：<br>
-    1.可以方便改为非单例，用户代码不需要改变<br>
-    2.可以编写一个泛型单例工厂<br>
-    3.可以用作supplier(Supplier.get返回一个实例)<br>
+    1）.可以方便改为非单例，用户代码不需要改变<br>
+    2）.可以编写一个泛型单例工厂<br>
+    3）.可以用作supplier(Supplier.get返回一个实例)<br>
     public class Singleton {<br>
     ////private static final Singleton singleton = new Singleton();<br>
     ////private Singleton(){.....}<br>
@@ -105,12 +105,12 @@
     LinkedHashMap中的实现总返回false，该子类重写后即可实现对容量的控制<br>
 
     <h3>第八条 避免使用终结函数（垃圾回收）</h3>
-        从一个对象变得不可达到它的终结函数执行这段时间是任意的、不确定的。意味着时间关键的<br>
+        1）从一个对象变得不可达到它的终结函数执行这段时间是任意的、不确定的。意味着时间关键的<br>
     任务不应该由终结函数来完成。例如打开的文件，应当由程序员自己关闭。由于JVM会延迟执行<br>
     所以大量文件保留在打开状态，当一个程序不能在打开文件的时候，它可能会执行失败。<br>
     不要被System.gc和System.runFinalization这两个方法所诱惑。增加终结函数被执行的机会<br>
     但是不保证会执行。<br>
-        正常情况下一个未被捕获的异常将会使线程终止，并打印出栈轨迹。但是如果异常<br>
+        2）正常情况下一个未被捕获的异常将会使线程终止，并打印出栈轨迹。但是如果异常<br>
     发生在一个终结函数中，甚至连警告都不会打印出来。<br>
         例如在文件流或者数据库连接中提供一个显示的终结方法，通常与try-finally结构结合使用。以确保<br>
     及时终止。<br>
@@ -127,25 +127,25 @@
     子类实例在私有实例域中保存着一个对其守卫者的唯一引用。守卫者被终结的时候，执行子类实例所期望的终结行为<br>
 
     <h3>第九条 使用try-with-resource语句代替try-finally语句</h3>
-        即使是用try-finally语句关闭资源的正确代码，也有一个微妙的缺陷。try-with-resources和finally<br>
+        1）即使是用try-finally语句关闭资源的正确代码，也有一个微妙的缺陷。try-with-resources和finally<br>
     都可以抛出异常。假设在 <a href="https://github.com/wangjin926454/Java/blob/master/src/effectivejava/TryCatchFinallyTest.java">try-finally中read或write时底层设备发生故障</a>，
     并且由于相同的原因，调用close方法失败<br>
     在这种情况下第二个异常完全冲掉了第一个异常。在堆栈跟踪中没有第一个异常的记录，这可能使实际系统中<br>
     的调试非常复杂,虽然可以编写代码抑制第二个异常，但是实际上太麻烦了没有人这样做。<br>
-        当使用 <a href="https://github.com/wangjin926454/Java/blob/master/src/effectivejava/TryWithResourcesTest.java">try-with-resources</a>时，如果read或者write时和close方法都抛出异常，后一个异常将被抑制(suppressed)，<br>
+        2）当使用 <a href="https://github.com/wangjin926454/Java/blob/master/src/effectivejava/TryWithResourcesTest.java">try-with-resources</a>时，如果read或者write时和close方法都抛出异常，后一个异常将被抑制(suppressed)，<br>
     抑制的异常没有被抛弃，打印在堆栈跟踪中，可以使用getSuppressed方法访问它们。相比try-finally这样更简洁也不容易出错。
 
     <h3>第十条 在改写equals的时候请遵守通用约定</h3>
     <h4>不用覆盖equals的情形：</h4>
-        1.类的每个实例本质上都是唯一的。<br>
+        1）.类的每个实例本质上都是唯一的。<br>
     对于像Thread这类代表活动实体而不是值的类，尤为如此。<br>
-        2.不关心类是否提供了“逻辑相等”的测试功能。<br>
+        2）.不关心类是否提供了“逻辑相等”的测试功能。<br>
     像java.util.Random这样，提供equals毫无意义。<br>
-        3.超类已经覆盖了equals，从超类继承过来的行为对于子类也是合适的。<br>
+        3）.超类已经覆盖了equals，从超类继承过来的行为对于子类也是合适的。<br>
     例如，骨架类AbstractList、AbstractSet、AbstractMap。<br>
-        4.类是私有的或是包级私有的，可以确定它的equals方法永远不会被调用。<br>
+        4）.类是私有的或是包级私有的，可以确定它的equals方法永远不会被调用。<br>
         <h4>需要覆盖equals的情形：</h4>
-        1.当程序员需要以特有的"逻辑相等"的方式进行比较时。而且超类也没有改写equals以实现期望的行为。<br>
+        1）.当程序员需要以特有的"逻辑相等"的方式进行比较时。而且超类也没有改写equals以实现期望的行为。<br>
     需要改写equals方法。有时候需要比较逻辑上是否相等（例如字符串只比较字符是否一样而不是内存地址）<br>
     而不是指向同一个对象。改写时也必须改写hashCode方法，使得这个类的实例可以被用作Map中的key，或者Set<br>
     中的元素。<br>
@@ -157,14 +157,14 @@
     map.put(s1,456);<br>
     此时s1.equals(s)返回true.但是hashCode方法是调用Object中hashCode方法，计算值不一致。在Map时，得到两个key<br>
     equals相等，却以不同的key，value存储无法确定是否相等。所以应该重写hashCode方法。<br>
-        2.枚举类型不要求改写equals方法。枚举类型保证每一个值只存在一个对象(单例模式)。
-        3.equals方法实现了等价关系
+        2）.枚举类型不要求改写equals方法。枚举类型保证每一个值只存在一个对象(单例模式)。
+        3）.equals方法实现了等价关系
     自反性：对于任意的引用值x，x.equals(x)一定为true<br>
     对称性：对于任意的x和y，y.equals(x)返回true时，x.equals(y)也一定返回true。<br>
     传递性：对于任意的x,y,z，如果x.equals(y)返回true,并y.euqlas(z)返回true时，x.equals(z)也一定返回true<br>
     一致性：对于任意的x和y,如果equals比较的对象信息没有被修改的话，要么都返回true，要么都返回false。<br>
     对于任意的x,x.equals(null)一定返回false。<br>
-        4.equals方法重写指南<br>
+        4）.equals方法重写指南<br>
     1.使用==判断"实参"是否指向对象的同一个引用。如果是返回true(String中equals方法）<br>
     2.使用instanceof操作符检查"实参"是否为正确的类型。如果不是直接返回false。（String中equals方法）<br>
     3.把实参转换到正确的类型(String中equals方法)<br>
@@ -172,32 +172,32 @@
     5.equals(Object another)注意参数类型为Object<br>
     
     
-    <h3>第八条 改写equals时总是要改写hashCode</h3>
+    <h3>第十条 改写equals时总是要改写hashCode</h3>
         hashCode约定。来自java.lang.Object规范<br>
-        1.应用程序执行期间一个对象的equals方法没有被修改的话，多次调用hashCode方法都应该返回同一个整数。<br>
+        1）.应用程序执行期间一个对象的equals方法没有被修改的话，多次调用hashCode方法都应该返回同一个整数。<br>
     程序多次执行，这个整数可以不同。（应该是重启程序计算hashCode方法会改变）<br>
-        2.如果两个对象equals方法相等。则hashCode方法也应产生相同的结果<br>
-        3.如果两个对象equals（Object)方法不相等。那么两个hashCode不必产生相同的整数结果。有助于提高<br>
+        2）.如果两个对象equals方法相等。则hashCode方法也应产生相同的结果<br>
+        3）.如果两个对象equals（Object)方法不相等。那么两个hashCode不必产生相同的整数结果。有助于提高<br>
     hash table的性能。<br>
-        4.如果更好的保持hash table的性能，交给科学家数学家去做。<br>
-        5.不要试图从hashCode计算中排除掉一个关键部分以提高性能，有可能计算hashCode的时候非常快，但是<br>
+        4）.如果更好的保持hash table的性能，交给科学家数学家去做。<br>
+        5）.不要试图从hashCode计算中排除掉一个关键部分以提高性能，有可能计算hashCode的时候非常快，但是<br>
     在Map中可能hash的不够均匀分散。在jdk1.2之前，String的hashCode只检查16个字符，对于像URL这样的层次状名字<br>
     的大型集合，性能将会严重下降。<br>
     
-    <h3>第九条 总是要改写toString</h3>
-        1.重写一个toString()方法。 在编程时显得很有必要(深有体会)<br>
+    <h3>第十二条 总是要改写toString</h3>
+        1）.重写一个toString()方法。 在编程时显得很有必要(深有体会)<br>
 
-    <h3>第十条 谨慎改写clone</h3>
-        1.如果一个类实现了Cloneable，则Object的clone方法返回该对象的逐域拷贝<br>
+    <h3>第十三条 谨慎改写clone</h3>
+        1）.如果一个类实现了Cloneable，则Object的clone方法返回该对象的逐域拷贝<br>
     否则，抛出一个CloneNotSupportedException异常。不值得效仿，实现一个接口是表名一个<br>
     类可以为客户做某些事情，对于Cloneable接口，改变了超类中一个受保护的方法的行为。<br>
-        2.在java.lang.Object中对于clone的规范<br>
+        2）.在java.lang.Object中对于clone的规范<br>
     x.clone()!=x 返回true<br>
     x.clone().getClass()==x.getClass()将返回true<br>
     x.clone().equals(x)返回true。但是这些不是一个绝对的要求<br>
-        3.拷贝一个对象往往会导致创建该类的一个新实例，但同时它会要求拷贝内部的数据结构。<br>
+        3）.拷贝一个对象往往会导致创建该类的一个新实例，但同时它会要求拷贝内部的数据结构。<br>
     这个过程中没有调用构造函数。<br>
-        4.最理想的状况下，如果需要使用clone方法。只需要实现Cloneable接口，重写clone方法即可。<br>
+        4）.最理想的状况下，如果需要使用clone方法。只需要实现Cloneable接口，重写clone方法即可。<br>
     通过super.clone()方法得到对象。如果一个类的所有超类都遵循此规则，则可以一直调用super.clone()<br>
     最终调用Object.clone()方法创建正确的类实例。但是，在原始对象中如果存在可变的对象。<br>
     例如数组，clone产生的实例会指向原始的数组，修改原始的实例或者clone的实例都会影响<br>
@@ -205,12 +205,61 @@
     最容易的做法是
     <a href="https://github.com/wangjin926454/Java/blob/master/src/effectivejava/CloneTest.java">
         对于每一个可变对象递归调用clone</a><br>
-        5.最好的做法是提供某些其他的途径来代替对象拷贝，或者干脆不提供这样的能力。<br>
+        5）.最好的做法是提供某些其他的途径来代替对象拷贝，或者干脆不提供这样的能力。<br>
     对于非可变类支持对象拷贝并没有太大的意义(例如单例模式)。好办法是提供一个拷贝构造<br>
     函数，唯一的参数类型是包含该构造函数的类
     <a href="https://github.com/wangjin926454/Java/blob/master/src/effectivejava/MyObject.java">public Yum(Yum yum);</a><br>
     另一种方法是提供一个静态工厂来代替构造函数
     <a href="https://github.com/wangjin926454/Java/blob/master/src/effectivejava/MyObject.java">public static Yum newInstance(Yum yum);</a><br>
+
+    <h3>考虑实现Comparable接口</h3>
+        1）通过在类中 <a href="https://github.com/wangjin926454/Java/blob/master/src/java_volume/java_volume_1_7/CollectionComparableToTest.java">实现Comparable接口实现自定义排序，</a>
+    使得可以跟许多泛型算法以及依赖于该接口的集合实现进行协作。<br>
+    如果你正在编写一个值类，它具有非常明显的内在关系,比如按字母排序，按数值排序或年代排序。<br>
+    将两个指定对象进行比较，当该对象小于、等于或大于指定对象的时候分别返回一个负数、零、或正整数。如果两个数无法<br>
+    进行比较，则抛出ClassCastException。<br>
+        2）实现者必须满足所有的x和y都满足sgn（x.comapreTo(y)） == -sgn（y.compareTo(x)）。<br>
+    （这也暗示着，当且仅当y.compareTo(x)抛出异常时，x.compareTo(y)才能抛出异常。）<br>
+    实现者还必须确保这个比较关系是可传递的：（x.compareTo(y)>0&&y.compareTo(z)>0）暗示着x.compareTo(z)>0.<br>
+    实现者需要确保x.compareTo(y) == 0暗示着所有的z都满足sgn(x.compareTo(z)) == sgn(y.compareTo(z)).<br>
+    强烈建议(（x.compareTo(y)）==0) == (x.equals(y)),但这并非绝对必要。<br>
+    一般来说，任何实现了Comparable接口的类，如果违反了这个条件，都应该予以明确的说明。<br>
+    推荐使用这样的说法：“注意，该类具有内在排序的功能，但是与equals不一致。”<br>
+        3)如果一个类中有多个关键的变量，那么先比较最重要的，以此类推。例如:
+    public int compareTo（phoneNumber pn）{<br>
+    if(areaCode< pn.areaCode){<br>
+    return -1;<br>
+    }<br>
+    if(areaCode>pn.areaCode){<br>
+    return 1;<br>
+    }<br>
+    if(prefix< pn.prefix){<br>
+    return -1;<br>
+    }<br>
+    if(prefix>pn.prefix){<br>
+    return 1;<br>
+    }<br>
+    if(lineNumber< pn.lineNumber){<br>
+    return -1;<br>
+    }<br>
+    if(lineNumber>pn.lineNumber){<br>
+    return 1;<br>
+    }<br>
+    return 0;<br>
+    }<br>
+    优化为：<br>
+    public int compareTo(phoneNumber pn){<br>
+    int areaCodeDiff = areaCode - pn.areaCode;<br>
+    if(areaCodeDiff != 0){<br>
+    return areaCodeDiff;<br>
+    }<br>
+    int prefixDiff = prefix - pn.prefix;<br>
+    if(prefixDiff != 0){<br>
+    return prefixDiff ;<br>
+    }<br>
+    return lineNumber - pn.lineNumber;<br>
+    }<br>
+    这种方法能够工作的很好，但是必须保证差值小于或等于INTEGER.MAX_VALUE
 </div>
 </body>
 </html>
