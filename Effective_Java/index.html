@@ -212,7 +212,7 @@
     另一种方法是提供一个静态工厂来代替构造函数
     <a href="https://github.com/wangjin926454/Java/blob/master/src/effectivejava/MyObject.java">public static Yum newInstance(Yum yum);</a><br>
 
-    <h3>考虑实现Comparable接口</h3>
+    <h3>第十四条 考虑实现Comparable接口</h3>
         1）通过在类中 <a href="https://github.com/wangjin926454/Java/blob/master/src/java_volume/java_volume_1_7/CollectionComparableToTest.java">实现Comparable接口实现自定义排序，</a>
     使得可以跟许多泛型算法以及依赖于该接口的集合实现进行协作。<br>
     如果你正在编写一个值类，它具有非常明显的内在关系,比如按字母排序，按数值排序或年代排序。<br>
@@ -259,7 +259,27 @@
     }<br>
     return lineNumber - pn.lineNumber;<br>
     }<br>
-    这种方法能够工作的很好，但是必须保证差值小于或等于INTEGER.MAX_VALUE
+    这种方法能够工作的很好，但是必须保证差值小于或等于INTEGER.MAX_VALUE<br>
+    <h3>第十五条 使类和成员的可访问性最小化</h3>
+    1）对于顶层的接口和类只有可能有两个级别：b包私有和公共的。如果使用public修饰声明符，必须永远支持它保证兼容。<br>
+    如果是包级私有则可以修改替换它，或者在后续版本消除。<br>
+    public -- 任何对象都可以访问<br>
+    protected -- 相同路径包下可以访问,子类可以通过new一个对象访问 在 B中 B b = new B();b.test();<br>
+    default -- 同包类可以访问,new一个对应对象访问在  B中 A a = new A();<br>
+    private -- 只有本类可以访问，子类可以继承但无法访问<br>
+    2）如果一个类的实例属性是非final的，或者是对可变对象的引用，那么通过将其公开，你就放弃了限制存储在属性中的值<br>
+    的能力。(例如String 虽然是final的但是还是可以修改)<br>
+    例如一个public static final Thing[] VALUES={};//一些IDE生成的访问方法返回对私有数组属性的引用,导致客户端能够修改<br>
+    数组的内容。有两种方法可以解决此问题。<br>
+    数组设置为 private static final Thing[] PRIVATE_VALUES={};<br>
+    ①:通过添加一个公共的不可变列表<br>
+    public static final List< Thing> VALUES = Collections.unmodifiableList< Arrays.asList(PRIVATE_VALUES);<br>
+    ②添加一个返回私有数组拷贝的方法<br>
+    public static final Thing[] values(){<br>
+    //// return PRIVATE_VALUES;<br>
+    }<br>
+
+
 </div>
 </body>
 </html>
