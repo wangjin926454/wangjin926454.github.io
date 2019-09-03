@@ -172,7 +172,7 @@
     5.equals(Object another)注意参数类型为Object<br>
     
     
-    <h3>第十条 改写equals时总是要改写hashCode</h3>
+    <h3>第十一条 改写equals时总是要改写hashCode</h3>
         hashCode约定。来自java.lang.Object规范<br>
         1）.应用程序执行期间一个对象的equals方法没有被修改的话，多次调用hashCode方法都应该返回同一个整数。<br>
     程序多次执行，这个整数可以不同。（应该是重启程序计算hashCode方法会改变）<br>
@@ -278,7 +278,18 @@
     public static final Thing[] values(){<br>
     //// return PRIVATE_VALUES;<br>
     }<br>
-
+    <h3>第十六条 使用公共访问方法而不是公共属性</h3>
+    通过get、set方法访问属性而不是把属性设置为public<br>
+    <h3>第十七条 最小化可变性</h3>
+      &nbsp;&nbsp;要使一个类不可变，请遵循以下五条规则:<br>
+    1) 不要提供修改对象状态的方法(例如setXXX(Object object)方法)<br>
+    2) 确保这个类不能被继承<br>
+    3) 把所有属性设置为final<br>
+    4) 把所有属性设置为private<br>
+    5) 确保对任何可变对象的互斥访问(不提供set方法,对属性修改时返回new ClassXXX(XXXX,XXXXX);)//XXXX为逻辑操作后的数据<br>
+    &nbsp;&nbsp;不可变对象本质上是线程安全的。因此不可变类应鼓励尽可能重用现有实例，常用方法是提供静态工厂<br>
+    public static final Complex ZERO = new Complex(0,0);<br>
+    缺点是每个不同的值都需要一个单独的对象。创建这些对象可能代价很高。<br>
 
 </div>
 </body>
