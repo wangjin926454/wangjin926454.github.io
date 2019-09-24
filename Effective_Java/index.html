@@ -135,6 +135,13 @@
         2）当使用 <a href="https://github.com/wangjin926454/Java/blob/master/src/effectivejava/TryWithResourcesTest.java">try-with-resources</a>时，如果read或者write时和close方法都抛出异常，后一个异常将被抑制(suppressed)，<br>
     抑制的异常没有被抛弃，打印在堆栈跟踪中，可以使用getSuppressed方法访问它们。相比try-finally这样更简洁也不容易出错。
 
+    &nbsp;&nbsp;try-with-resources 是在java 7.0 版本时引入的新语法特性。使用它配合java.lang.AutoCloseable接口可以更好的对资源进行释放，减少繁琐的异常处理。<br>
+    1.使用try-with-resources结构无论是否抛出异常在try-block执行完毕后都会调用资源的close方法；<br>
+    2.使用try-with-resources结构创建多个资源，try-block执行完毕后调用的close方法的顺序与创建资源顺序相反；<br>
+    3.使用try-with-resources结构，try-block块抛出异常后先执行所有资源（try的（）中声明的）的close方法然后在执行catch里面的代码然后才是finally；<br>
+    4.只用在try的()中声明的资源的close方法才会被调用，并且当对象销毁的时候close不会被再次调用；<br>
+    使用try-with-resources结构无须显式调用资源释放，编程效率高，代码更简洁。<br>
+
     <h3>第十条 在改写equals的时候请遵守通用约定</h3>
     <h4>不用覆盖equals的情形：</h4>
         1）.类的每个实例本质上都是唯一的。<br>
